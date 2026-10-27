@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+
+DOMAIN="sc.ciscoplus.com"
+COUNT=30
+
+for i in $(seq 1 $COUNT); do
+  TIMESTAMP=$(date '+%H:%M:%S')
+  CLOUDFLARE_SOA=$(dig @1.1.1.1 $DOMAIN SOA +short)
+  GOOGLE_SOA=$(dig @8.8.8.8 $DOMAIN SOA +short)
+  printf '%s Cloudflare: %s | Google: %s
+' "$TIMESTAMP" "$CLOUDFLARE_SOA" "$GOOGLE_SOA"
+  sleep 1
+done

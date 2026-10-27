@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+if ! command -v brew > /dev/null 2>&1; then
+    echo "brew is not installed or not in path"
+    exit 1
+fi
+
+echo "updating homebrew..."
+brew update
+
+if brew outdated --quiet | grep -q .; then
+    echo "package upgrade available... running brew ugrade"
+    brew upgrade
+else 
+    echo "all brew packages up to date..."
+fi
