@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+log_file="/Users/calupric/brew-updater.log"
+
+if [[ -x /opt/homebrew/bin/brew ]]; then
+    brew=/opt/homebrew/bin/brew
+else
+    echo "[$(date)] Homebrew not found" >&2
+    exit 1
+fi
+
+{
+    echo "[$(date)] starting Homwbrew update"
+    "$brew" update
+
+    if [[ -n "$("$brew" outdated --quiet)" ]]; then
+        "$brew" upgrade --no-ask
+    else
+        echo "All Homebrew packages upto date"
+    fi
+
+    echo "Homebrew updated and Homebrew packages upgraded"
+    echo
+    echo "========================================================================================"
+    echo
+} >> "$log_file" 2>&1
